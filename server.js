@@ -1,38 +1,24 @@
 const express = require('express')
+//routes.js をよみこむ
+const routes = require('./routes')
+
 const dotenv = require('dotenv')
 
 dotenv.config()
 const host = process.env.HOST
 const port = process.env.PORT
 
-const app= express()
+const app = express()
 
-app.use(express.urlencoded({extended :true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
-//app.get(URL, 処理)
-app.get('/',(req, res) => {
-    res.send('Hello YSE!!!')
+//ejs をつかう
+app.set('view engine', 'ejs')
+
+//routes をつかう
+app.use(routes)
+
+app.listen(port, host, () => {
+    console.log('http://' + host + ':' + port)
 })
-
-app.get('/profile', (req, res) => {
-    res.send('This is Profile Page !!!')
-})
-
-app.post('/auth', (req, res) => {
-    const login_name = req.body.login_name
-    const password = req.body.password
-
-    let message = 'ログインできません'
-    if (login_name == process.env.LOGIN_NAME
-        && password == process.env.PASSWORD){
-            message = 'ログインしました'
-        }
-        res.send(message)
-})
-
-
-app.listen(port, host,() => {
-  console.log('http://' +host + ':' + port)  
-})
-
