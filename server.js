@@ -18,6 +18,17 @@ app.set('view engine', 'ejs')
 
 //routes をつかう
 app.use(routes)
+// layout を使う
+
+const layouts = require('express-ejs-layouts')
+app.set('layouts','layouts/default')
+app.use(layouts)
+
+//ejsをつかう
+app.set('view engine','ejs')
+
+//routesをつかう
+app.use(routes)
 
 app.listen(port, host, () => {
     console.log('http://' + host + ':' + port)
